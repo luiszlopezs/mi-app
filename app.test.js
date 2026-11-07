@@ -24,5 +24,5 @@ test('GET /health responde 200 y status ok', async () => {
 test('GET / muestra el título', async () => {
   const res = await fetch(`${base}/`);
   const text = await res.text();
-  assert.ok(text.includes('Hola CI/CD'));
+  assert.ok(text.includes('Hola ci/cd V2'));
 });
