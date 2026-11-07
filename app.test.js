@@ -21,8 +21,8 @@ test('GET /health responde 200 y status ok', async () => {
   assert.strictEqual(body.status, 'ok');
 });
 
-test('GET / muestra el título', async () => {
+test('GET / muestra el título exacto', async () => {
   const res = await fetch(`${base}/`);
   const text = await res.text();
-  assert.ok(text.includes('Hola ci/cd V2'));
+  assert.match(text, /<h1>Hola ci\/cd V2<\/h1>/);
 });
