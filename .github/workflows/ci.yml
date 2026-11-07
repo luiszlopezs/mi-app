@@ -25,3 +25,23 @@ jobs:
 
       - name: Correr pruebas
         run: npm test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Construir imagen
+        run: docker build -t mi-app:${{ github.sha }} .
+
+      - name: Probar el contenedor
+        run: |
+          docker run -d --name app -p 3000:3000 \
+            -e APP_VERSION=${{ github.sha }} mi-app:${{ github.sha }}
+          sleep 5
+          curl --fail http://localhost:3000/health
+
+      - name: Mostrar logs si falló
+        if: failure()
+        run: docker logs app
